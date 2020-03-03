@@ -30,7 +30,7 @@ SEED = 7
 RESULT_DIR = './results1'
 SCENARIO = 'domain'
 # use binary (instead of multi-class) classication loss
-BCE = True
+#BCE = True
 # size of latent representation
 Z_DIM = 100
 
@@ -39,7 +39,8 @@ parser.add_argument('--get-stamp', action='store_true')
 parser.add_argument('--no-gpus', action='store_false', dest='cuda')
 parser.add_argument('--factor', type=str, default='clutter', dest='factor')
 parser.add_argument('--savepath', type=str, default='./results', dest='savepath')
-parser.add_argument('--cumulative', type=int, default=0, dest='cu')
+parser.add_argument('--cumulative', type=int, default=0, dest='cul')
+parser.add_argument('--bce', action='store_true')
 
 parser.add_argument('--tasks', type=int, default=9)
 
@@ -50,7 +51,7 @@ parser.add_argument('--fc-bn', type=str, default="no")
 parser.add_argument('--fc-nl', type=str, default="relu", choices=["relu", "leakyrelu"])
 
 parser.add_argument('--iters', type=int, default=3000)
-parser.add_argument('--lr', type=float, default=0.001)
+parser.add_argument('--lr', type=float, default=0.0001)
 parser.add_argument('--batch', type=int, default=32)
 parser.add_argument('--optimizer', type=str, choices=['adam', 'adam_reset', 'sgd'], default='adam')
 
@@ -117,7 +118,7 @@ def run(args):
     if args.feedback and (args.ewc or args.si or args.gating_prop > 0 or args.icarl):
         raise NotImplementedError("EWC, SI, XdG and iCaRL are not supported with feedback connections.")
     # -if binary classification loss is selected together with 'feedback', give error
-    if args.feedback and BCE:
+    if args.feedback and args.bce:
         raise NotImplementedError("Binary classification loss not supported with feedback connections.")
     # -if XdG is selected together with both replay and EWC, give error (either one of them alone with XdG is fine)
     if args.gating_prop > 0 and (not args.replay == "none") and (args.ewc or args.si):
@@ -147,7 +148,7 @@ def run(args):
         torch.cuda.manual_seed(SEED)
 
     if args.factor == 'sequence':
-        args.tasks = 36
+        args.tasks = 12
 
     # -------------------------------------------------------------------------------------------------#
 
@@ -173,7 +174,7 @@ def run(args):
     if args.feedback:
         model = AutoEncoder(
             image_size=config['size'], image_channels=config['channels'], classes=config['classes'],
-            fc_layers=args.fc_lay, fc_units=args.fc_units, z_dim=Z_DIM,
+            fc_layers=args.fc_lay, fc_units=args.g_fc_uni, z_dim=Z_DIM,
             fc_drop=args.fc_drop, fc_bn=True if args.fc_bn == "yes" else False, fc_nl=args.fc_nl,
         ).to(device)
         model.lamda_pl = 1.  # --> to make that this VAE is also trained to classify
@@ -182,7 +183,7 @@ def run(args):
             image_size=config['size'], image_channels=config['channels'], classes=config['classes'],
             fc_layers=args.fc_lay, fc_units=args.fc_units, fc_drop=args.fc_drop, fc_nl=args.fc_nl,
             fc_bn=True if args.fc_bn == "yes" else False, excit_buffer=True if args.gating_prop > 0 else False,
-            binaryCE=BCE, binaryCE_distill=True,
+            binaryCE=args.bce, binaryCE_distill=True,
         ).to(device)
 
     # Define optimizer (only include parameters that "requires_grad")
@@ -257,7 +258,7 @@ def run(args):
         # -specify architecture
         generator = AutoEncoder(
             image_size=config['size'], image_channels=config['channels'],
-            fc_layers=args.g_fc_lay, fc_units=args.g_fc_uni, z_dim=args.g_z_dim, classes=config['classes'],
+            fc_layers=args.g_fc_lay, fc_units=args.g_fc_uni, z_dim=100, classes=config['classes'],
             fc_drop=args.fc_drop, fc_bn=True if args.fc_bn == "yes" else False, fc_nl=args.fc_nl,
         ).to(device)
         # -set optimizer(s)

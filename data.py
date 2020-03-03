@@ -16,7 +16,18 @@ datapath = ['bottle_01', 'bottle_02', 'bottle_03', 'bottle_04', 'bowl_01', 'bowl
             'paper_cutter_03', 'paper_cutter_04', 'pencil_01', 'pencil_02', 'pencil_03', 'pencil_04', 'pencil_05',
             'plasticbag_01', 'plasticbag_02', 'plasticbag_03', 'plug_01', 'plug_02', 'plug_03', 'plug_04', 'pot_01',
             'scissors_01', 'scissors_02', 'scissors_03', 'stapler_01', 'stapler_02', 'stapler_03', 'thermometer_01',
-            'thermometer_02', 'thermometer_03', 'toy_01', 'toy_02', 'toy_03', 'toy_04', 'toy_05']
+            'thermometer_02', 'thermometer_03', 'toy_01', 'toy_02', 'toy_03', 'toy_04', 'toy_05','nail_clippers_01','nail_clippers_02',
+            'nail_clippers_03', 'bracelet_01', 'bracelet_02','bracelet_03', 'comb_01','comb_02',
+            'comb_03', 'umbrella_01','umbrella_02','umbrella_03','socks_01','socks_02','socks_03',
+            'toothpaste_01','toothpaste_02','toothpaste_03','wallet_01','wallet_02','wallet_03',
+            'headphone_01','headphone_02','headphone_03', 'key_01','key_02','key_03',
+             'battery_01', 'battery_02', 'mouse_01', 'pencilcase_01', 'pencilcase_02', 'tape_01',
+             'chopsticks_01', 'chopsticks_02', 'chopsticks_03',
+               'notebook_01', 'notebook_02', 'notebook_03',
+               'spoon_01', 'spoon_02', 'spoon_03',
+               'tissue_01', 'tissue_02', 'tissue_03',
+              'clamp_01', 'clamp_02', 'hat_01', 'hat_02', 'u_disk_01', 'u_disk_02', 'swimming_glasses_01'
+            ]
 
 
 class MyDataset(Dataset):
@@ -129,14 +140,14 @@ class ExemplarDataset(Dataset):
 def get_multitask_experiment(name, scenario, tasks, only_config=False, verbose=False,
                              exception=False, factor='clutter'):
     if name == 'mydataset':
-        classes_per_task = 69
+        classes_per_task = 121
         train_datasets = []
         test_datasets = []
 
         for i in range(tasks):
             train_datasets.append(MyDataset(i, mode='train', own_transform=my_transform, factor=factor))
             test_datasets.append(MyDataset(i, mode='test', own_transform=my_transform, factor=factor))
-        config = {'size': 50, 'channels': 3, 'classes': 69}
+        config = {'size': 50, 'channels': 3, 'classes': 121}
 
 
     else:

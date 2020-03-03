@@ -32,6 +32,17 @@ Step 3: Put train/test/validation file under `./img`. For more details, please f
 Step 4: Generate the `.pkl` files of data.
 ```
  python3 pk_gene.py
+ python3 pk_gene_sequence.py
+```
+## Quickly get hands on
+
+You can directly use scripts on 9 algorithms and 2 benchmarks (may need to modify arguments/parameters in `.bash` files if necessary):
+```
+bash clutter.bash
+bash illumination.bash
+bash pixel.bash
+bash occlusion.bash
+bash sequence.bash
 ```
 
 ## Running Benchmark 1
@@ -43,6 +54,7 @@ python3 main.py --factor
 
 which kind of experiment? (`clutter`|`illumination`|`occlusion`|`pixel`)
 
+
 ## Running Benchmark 2
 The main option to run benchmark2 is:
 
@@ -51,11 +63,7 @@ python3 main.py --factor=sequence
 ```
 
 ## Running specific baseline methods
-- Context-dependent-Gating (XdG): 
 
-```
-main.py --savepath=xdg
-```
 - Elastic weight consolidation (EWC): 
 
 ```
@@ -152,6 +160,6 @@ Parts of code were borrowed from [here](https://github.com/GMvandeVen/continual-
 
 
 ## Issue / Want to Contribute ? 
-Open a new issue or do a pull request in case you are facing any difficulty with the code base or if you want to contribute to it.
+Open a new issue or do a pull request in case you are facing any difficulty with the code base or if you want to contribute.
 
 
