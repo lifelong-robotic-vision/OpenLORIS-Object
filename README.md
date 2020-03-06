@@ -1,7 +1,8 @@
 # OpenLORIS-Object 
 This is the implementation of the following paper: 
-[OpenLORIS-Object: A Dataset and Benchmark towardsLifelong Object Recognition](https://arxiv.org/pdf/1911.06487.pdf)
+[OpenLORIS-Object: A Robotic Vision Dataset and Benchmark for Lifelong Deep Learning](https://arxiv.org/pdf/1911.06487.pdf)
 
+The paper has been accepted into ICRA 2020. 
 
 ## Requirements
 The current version of the code has been tested with following libs:
