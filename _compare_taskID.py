@@ -37,7 +37,7 @@ model_params.add_argument('--fc-nl', type=str, default="relu", choices=["relu", 
 train_params = parser.add_argument_group('Training Parameters')
 train_params.add_argument('--iters', type=int, default=2000, help="# batches to optimize solver")
 train_params.add_argument('--lr', type=float, default=0.001, help="learning rate")
-train_params.add_argument('--batch', type=int, default=128, help="batch-size")
+train_params.add_argument('--batch', type=int, default=32, help="batch-size")
 train_params.add_argument('--optimizer', type=str, choices=['adam', 'adam_reset', 'sgd'], default='adam')
 
 # "memory replay" parameters
